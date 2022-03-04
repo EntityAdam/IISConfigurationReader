@@ -57,7 +57,7 @@ public class ConfigurationReader
                     var applicationPath = $"{siteName}{a.Path}";
                     var configurationSection = _appHostConfiguration.GetSection(mode, applicationPath);
                     var isAuthModeEnabled = configurationSection["enabled"].ToString();
-                    a.AuthenticationModes.Add(mode, isAuthModeEnabled ?? "null");
+                    a.AuthenticationModes.Add(GetLastPart(mode), isAuthModeEnabled ?? "null");
                 }
             }
         }
@@ -142,5 +142,11 @@ public class ConfigurationReader
             ManagedPipelineMode = applicationPool.ManagedPipelineMode.ToString(),
             ManagedRuntimeVersion = applicationPool.ManagedRuntimeVersion
         };
+    }
+
+    private static string GetLastPart(string input)
+    {
+        var index = input.LastIndexOf('/');
+        return input.Substring(index + 1);
     }
 }

@@ -9,8 +9,16 @@
     internal void Print()
     {
         var indent = " - ";
-        Console.WriteLine($"{indent}Application Pool: {AppPoolName}");
+        if (Path == "/")
+        {
+            Console.WriteLine($"#### Application: Root");
+        }
+        else
+        {
+            Console.WriteLine($"#### Application: {GetLastPart(Path)}");
+        }
         Console.WriteLine($"{indent}Path: {Path}");
+        Console.WriteLine($"{indent}Application Pool: {AppPoolName}");
         Console.WriteLine($"{indent}Protocol: {EnabledProtocols}");
         Console.WriteLine($"{indent}Authentication Modes:");
         foreach (var mode in AuthenticationModes)
@@ -22,5 +30,10 @@
             dir.Print();
         }
         Console.WriteLine("");
+    }
+    private static string GetLastPart(string input)
+    {
+        var index = input.LastIndexOf('/');
+        return input.Substring(index + 1);
     }
 }

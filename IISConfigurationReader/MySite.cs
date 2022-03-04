@@ -9,7 +9,7 @@
         Console.WriteLine($"## Site: {Name}");
         Console.WriteLine($"State: {State}");
         Console.WriteLine("");
-        Console.WriteLine($"Applications:");
+        Console.WriteLine($"### Applications:");
         foreach (var app in Applications)
         {
             app.Print();
