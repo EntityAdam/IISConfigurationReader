@@ -1,11 +1,14 @@
 ﻿using Microsoft.Web.Administration;
+using System.Collections;
+using System.Runtime.InteropServices;
 
-public class ConfigurationReader
+public class ConfigurationReader : IDisposable
 {
     private ServerManager _serverManager;
     private List<MySite> _allSites;
     private List<MyApplicationPool> _allAppPools;
     private Configuration _appHostConfiguration;
+    private bool _disposed;
 
     public ConfigurationReader()
     {
@@ -148,5 +151,24 @@ public class ConfigurationReader
     {
         var index = input.LastIndexOf('/');
         return input.Substring(index + 1);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    private void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+        if (disposing)
+        {
+            _serverManager.Dispose();
+        }
+        _disposed = true;
     }
 }
